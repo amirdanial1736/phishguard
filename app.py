@@ -13,15 +13,17 @@ def check_url(url):
             "message": "Please enter a URL."
         }
 
+    # Add HTTPS if the user didn't provide a protocol
     if not url.startswith(("http://", "https://")):
         url = "https://" + url
 
     parsed = urlparse(url)
 
-    if not parsed.netloc:
+    # Make sure a domain exists
+    if not parsed.netloc or "." not in parsed.netloc:
         return {
             "status": "error",
-            "message": "Invalid URL."
+            "message": "Please enter a valid website URL, such as https://example.com."
         }
 
     domain = parsed.netloc.lower()

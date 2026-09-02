@@ -15,9 +15,12 @@ checkButton.addEventListener("click", async () => {
 
     const url = urlInput.value.trim();
 
+    // Clear previous messages
     errorMessage.textContent = "";
+    resultSection.classList.add("hidden");
 
-    if (!url) {
+    // Check if the input is empty
+    if (url === "") {
         errorMessage.textContent = "Please enter a URL.";
         return;
     }
@@ -41,6 +44,11 @@ checkButton.addEventListener("click", async () => {
 
         const data = await response.json();
 
+        if (data.status === "error") {
+            errorMessage.textContent = data.message;
+            return;
+        }
+
         resultSection.classList.remove("hidden");
 
         statusBox.className = "";
@@ -55,12 +63,6 @@ checkButton.addEventListener("click", async () => {
 
             statusBox.classList.add("suspicious");
             statusTitle.textContent = "🟡 Suspicious";
-            statusMessage.textContent = data.message;
-
-        } else {
-
-            statusBox.classList.add("error-status");
-            statusTitle.textContent = "🔴 Error";
             statusMessage.textContent = data.message;
         }
 
