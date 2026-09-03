@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
 
 <body>
 
+    <!-- Header -->
     <header>
         <div class="container">
             <h1>PhishGuard</h1>
@@ -18,9 +20,12 @@
         </div>
     </header>
 
+
     <main class="container">
 
+        <!-- URL Checker -->
         <section class="hero">
+
             <h2>Check a Website URL</h2>
 
             <p>
@@ -29,6 +34,7 @@
             </p>
 
             <div class="checker">
+
                 <input
                     type="text"
                     id="urlInput"
@@ -38,36 +44,78 @@
                 <button id="checkButton">
                     Check URL
                 </button>
+
             </div>
 
             <p id="errorMessage" class="error"></p>
+
         </section>
 
 
+        <!-- Scan Result -->
         <section id="result" class="result hidden">
 
             <h2>Scan Result</h2>
 
+
+            <!-- Risk Status -->
             <div id="statusBox">
+
                 <h3 id="statusTitle"></h3>
+
                 <p id="statusMessage"></p>
+
             </div>
 
+
+            <!-- Risk Score -->
+            <div class="score-section">
+
+                <div class="score-header">
+
+                    <span>Risk Score</span>
+
+                    <strong id="riskScore">
+                        0/100
+                    </strong>
+
+                </div>
+
+
+                <div class="score-bar">
+
+                    <div id="scoreFill"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Details -->
             <div class="details">
-                <p>
-                    <strong>Domain:</strong>
-                    <span id="domain"></span>
-                </p>
 
                 <p>
-                    <strong>Indicators:</strong>
-                    <span id="indicators"></span>
+                    <strong>Website:</strong>
+
+                    <span id="domain">
+                        N/A
+                    </span>
                 </p>
+
+
+                <h3 class="indicators-title">
+                    Security Findings
+                </h3>
+
+
+                <div id="indicators"></div>
+
             </div>
 
         </section>
 
 
+        <!-- About -->
         <section class="info">
 
             <h2>About PhishGuard</h2>
@@ -78,26 +126,50 @@
                 with a Python backend.
             </p>
 
+
             <div class="features">
 
                 <div>
+
                     <h3>HTML</h3>
-                    <p>Creates the website structure.</p>
+
+                    <p>
+                        Creates the website structure.
+                    </p>
+
                 </div>
 
+
                 <div>
+
                     <h3>CSS</h3>
-                    <p>Controls the appearance of the website.</p>
+
+                    <p>
+                        Controls the appearance of the website.
+                    </p>
+
                 </div>
 
+
                 <div>
+
                     <h3>JavaScript</h3>
-                    <p>Communicates with the backend.</p>
+
+                    <p>
+                        Communicates with the backend.
+                    </p>
+
                 </div>
 
+
                 <div>
+
                     <h3>Python</h3>
-                    <p>Processes the URL check.</p>
+
+                    <p>
+                        Processes the URL check.
+                    </p>
+
                 </div>
 
             </div>
@@ -107,12 +179,18 @@
     </main>
 
 
+    <!-- Footer -->
     <footer>
-        <p>PhishGuard — Cybersecurity Learning Project</p>
+
+        <p>
+            PhishGuard — Cybersecurity Learning Project
+        </p>
+
     </footer>
 
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+
 </html>
