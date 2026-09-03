@@ -44,37 +44,83 @@ checkButton.addEventListener("click", async () => {
 
         const data = await response.json();
 
+        // Handle backend errors
         if (data.status === "error") {
             errorMessage.textContent = data.message;
             return;
         }
 
+        // Show result section
         resultSection.classList.remove("hidden");
 
+        // Get heuristic result
+        const heuristic = data.heuristic;
+
+        // Clear previous status classes
         statusBox.className = "";
 
-        if (data.status === "safe") {
+        // Display result based on risk level
+        if (heuristic.risk_level === "low") {
 
             statusBox.classList.add("safe");
-            statusTitle.textContent = "🟢 Safe";
-            statusMessage.textContent = data.message;
 
-        } else if (data.status === "suspicious") {
+            statusTitle.textContent = "🟢 Low Risk";
+
+            statusMessage.textContent =
+                "No major suspicious indicators were detected.";
+
+        } else if (heuristic.risk_level === "medium") {
 
             statusBox.classList.add("suspicious");
-            statusTitle.textContent = "🟡 Suspicious";
-            statusMessage.textContent = data.message;
+
+            statusTitle.textContent = "🟡 Medium Risk";
+
+            statusMessage.textContent =
+                "Some potentially suspicious indicators were detected.";
+
+        } else if (heuristic.risk_level === "high") {
+
+            statusBox.classList.add("error-status");
+
+            statusTitle.textContent = "🔴 High Risk";
+
+            statusMessage.textContent =
+                "Several suspicious indicators were detected.";
         }
 
+        // Display domain
         domain.textContent = data.domain || "N/A";
 
-        if (data.indicators && data.indicators.length > 0) {
-            indicators.textContent = data.indicators.join(", ");
+        // Display score
+        statusMessage.textContent +=
+            ` Risk score: ${heuristic.score}/100.`;
+
+        // Display indicators
+        if (heuristic.indicators && heuristic.indicators.length > 0) {
+
+            indicators.innerHTML = "";
+
+            heuristic.indicators.forEach(indicator => {
+
+                const item = document.createElement("div");
+
+                item.innerHTML = `
+                    <strong>${indicator.type}</strong>
+                    (${indicator.severity}):
+                    ${indicator.description}
+                `;
+
+                indicators.appendChild(item);
+            });
+
         } else {
-            indicators.textContent = "None detected";
+
+            indicators.textContent = "None detected.";
         }
 
     } catch (error) {
+
+        console.error("Error:", error);
 
         errorMessage.textContent =
             "Could not connect to the server.";

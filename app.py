@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 from urllib.parse import urlparse
+from services.heuristic_checker import check_url_heuristics
 
 app = Flask(__name__)
 
 
 def check_url(url):
-    """Perform a basic URL safety check."""
+    """Validate and analyze a URL using the local heuristic engine."""
 
     if not url:
         return {
@@ -28,33 +29,14 @@ def check_url(url):
 
     domain = parsed.netloc.lower()
 
-    suspicious_words = [
-        "login",
-        "verify",
-        "account",
-        "secure",
-        "password",
-        "update"
-    ]
-
-    found_words = [
-        word for word in suspicious_words
-        if word in url.lower()
-    ]
-
-    if found_words:
-        return {
-            "status": "suspicious",
-            "message": "This URL contains words commonly found in suspicious links.",
-            "domain": domain,
-            "indicators": found_words
-        }
+    # Run local heuristic analysis
+    heuristic_result = check_url_heuristics(url)
 
     return {
-        "status": "safe",
-        "message": "No basic suspicious indicators were detected.",
+        "status": "success",
         "domain": domain,
-        "indicators": []
+        "url": url,
+        "heuristic": heuristic_result
     }
 
 
